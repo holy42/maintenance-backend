@@ -1,0 +1,17 @@
+# Versions à choisir et à figer par vos soins (pip freeze) après installation.
+fastapi
+uvicorn[standard]
+sqlalchemy>=2.0
+alembic
+psycopg2-binary
+pydantic>=2.0
+pydantic-settings
+passlib[bcrypt]
+bcrypt==4.0.1          # compatibilité connue avec passlib 1.7.x
+python-jose[cryptography]
+cryptography
+httpx
+tree-sitter
+tree-sitter-php
+# --- développement et tests ---
+pytest
