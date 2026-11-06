@@ -78,9 +78,13 @@ def test_comparaison_refuse_un_jeu_trop_petit():
 
 
 def test_choix_prefere_le_modele_simple_et_jamais_pire_que_la_constante():
-    base = {"auc": .7, "brier": .2}
-    assert en.choisir({"modeles": {"logistique": base, "foret": {"brier": .195}, "constant": {"brier": .25}}}) == "logistique"
-    assert en.choisir({"modeles": {"logistique": base, "foret": {"brier": .15}, "constant": {"brier": .25}}}) == "foret"
+    base = {"auc": .7, "brier": .2, "ece": .05, "auc_ic95": [.62, .78]}
+    cst = {"brier": .25}
+    assert en.choisir({"modeles": {"logistique": base, "foret": {"brier": .195, "auc": .9, "ece": .05}, "constant": cst}}) == "logistique"   # gain trop faible
+    assert en.choisir({"modeles": {"logistique": base, "foret": {"brier": .15, "auc": .9, "ece": .05}, "constant": cst}}) == "foret"
+    assert en.choisir({"modeles": {"logistique": base, "foret": {"brier": .15, "auc": .75, "ece": .05}, "constant": cst}}) == "logistique"   # AUC dans l'IC
+    assert en.choisir({"modeles": {"logistique": base, "foret": {"brier": .15, "auc": .9, "ece": .20}, "constant": cst}}) == "logistique"    # calibration dégradée
+    assert en.choisir({"modeles": {"logistique": base, "foret": {"brier": .15, "auc": None, "ece": .05}, "constant": cst}}) == "logistique"  # valeur manquante
     assert en.choisir({"modeles": {"logistique": {"brier": .26}, "foret": {"brier": .27}, "constant": {"brier": .25}}}) == "constant"
 
 
@@ -126,3 +130,22 @@ def test_chaine_complete_sur_donnees_fictives():
     assert res["recommande"] in ("logistique", "foret") and res["modeles"]["logistique"]["auc"] > 0.65
     Xa, ya, Xt, yt = en.separer_test(X, y, 0.3)
     assert len(Xt) + len(Xa) == len(X) and abs(sum(yt) / len(yt) - sum(y) / len(y)) < 0.1
+
+
+def test_evaluation_sur_jeu_independant_et_retrait_de_l_apprentissage():
+    from app.fiabilite.donnees_synthetiques import generer
+    from app.fiabilite.variables import NOMS
+    Xa, ya = generer(3, 300, 1)
+    Xt, yt = generer(3, 200, 2)
+    # export « complet » = apprentissage + jeu indépendant : le retrait doit rendre exactement le jeu indépendant
+    X2, y2 = en.retirer_lignes(Xa + Xt, ya + yt, Xa, ya)
+    assert X2 == Xt and y2 == yt
+    res = en.evaluer_independant(3, NOMS[3], Xa, ya, X2, y2)
+    assert set(res["modeles"]) == {"logistique", "foret", "regles_fixees_a_la_main", "constant"}
+    assert res["test"]["n"] == 200 and res["modeles"]["logistique"]["auc"] > 0.65
+    assert abs(res["modeles"]["constant"]["auc"] - 0.5) < 1e-9
+    try:
+        en.retirer_lignes(Xt, yt, Xa, ya)          # l'apprentissage n'est pas dans ce CSV : erreur explicite
+        assert False
+    except ValueError:
+        pass

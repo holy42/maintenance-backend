@@ -80,7 +80,8 @@ def executer_verification(verification_id: int, ia: ServiceIA | None = None) -> 
         db.rollback()
         if not isinstance(exc, ErreurMetier):
             log.exception("Échec de la vérification %s", verification_id)
-        _marquer_echec(verification_id, exc.message if isinstance(exc, ErreurMetier) else "Erreur interne lors de la vérification.")
+        _marquer_echec(verification_id, exc.message if isinstance(exc, ErreurMetier)
+                       else f"Erreur interne lors de la vérification ({type(exc).__name__}) : voir le journal du serveur.")
     finally:
         db.close()
 
@@ -162,9 +163,9 @@ def _executer(db: Session, verification_id: int, ia: ServiceIA | None) -> None:
         )
         db.add(r)
         paires.append((r, c))
+    db.flush()                                          # attribue les identifiants ; une erreur ici est réelle et arrête la vérification
     try:                                                # étape 3 : fiabilité de chaque preuve de l'outil d'analyse
         with db.begin_nested():                         # un échec du calcul de fiabilité n'annule ni ne bloque la vérification
-            db.flush()                                  # attribue les identifiants des résultats
             ServiceFiabilite(db).evaluer_resultats(v, paires)
     except Exception:
         log.exception("Calcul de fiabilité (étape 3) impossible pour la vérification %s", v.id)
@@ -172,7 +173,7 @@ def _executer(db: Session, verification_id: int, ia: ServiceIA | None) -> None:
     if v.avec_interpretation_ia and constats:
         n_ia = _interpreter(db, v, constats, ia or ServiceIA())
     v.statut, v.fin_le = "terminee", datetime.now(timezone.utc)
-    v.resultat_global = f"{len(constats)} résultat(s) d'outil, {n_ia} hypothèse(s) de l'IA"
+    v.resultat_global = f"{len(constats)} résultat(s), {n_ia} IA"[:30]      # colonne VARCHAR(30) du script SQL
     enregistrer_statut(db, application_id=app.id, type_element="verification", element_id=v.id,
                        ancien="en_cours", nouveau="terminee")
     notif.notifier(db, {v.declenchee_par}, type_evenement="verification_terminee",

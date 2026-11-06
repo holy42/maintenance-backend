@@ -3,6 +3,8 @@
   python -m app.fiabilite.cli synthetique --etape 3 --n 200 --sortie /tmp/etape3.csv      # données FICTIVES (test du code seulement)
   python -m app.fiabilite.cli comparer    --etape 3 --csv donnees_etape3.csv [--sklearn]  # validation croisée de tous les modèles
   python -m app.fiabilite.cli entrainer   --etape 3 --csv donnees_etape3.csv --algo auto --sortie var/modeles/etape3.json [--test 0.3]
+  python -m app.fiabilite.cli evaluer     --etape 3 --apprentissage jeu1.csv --test export_complet.csv --retirer-apprentissage
+      # entraîne sur jeu1.csv puis évalue UNE fois sur un jeu indépendant ; compare aux règles fixées à la main et à la référence constante
 
 Le CSV contient une colonne par variable (voir app/fiabilite/variables.py) et une colonne `etiquette` (1 = vrai, 0 = faux)."""
 import argparse
@@ -26,6 +28,12 @@ def main(argv: list[str] | None = None) -> int:
     e = sp.add_parser("entrainer"); e.add_argument("--etape", type=int, choices=(3, 6), required=True); e.add_argument("--csv", required=True)
     e.add_argument("--algo", choices=("logistique", "foret", "auto"), default="auto"); e.add_argument("--sortie", required=True)
     e.add_argument("--test", type=float, default=0.0, help="part mise de côté pour l'évaluation finale (ex. 0.3)"); e.add_argument("--graine", type=int, default=0)
+    v = sp.add_parser("evaluer"); v.add_argument("--etape", type=int, choices=(3, 6), required=True)
+    v.add_argument("--apprentissage", required=True, help="CSV d'entraînement (ex. export de la plateforme avant d'étiqueter le jeu indépendant)")
+    v.add_argument("--test", required=True, help="CSV du jeu indépendant, jamais utilisé pour entraîner")
+    v.add_argument("--retirer-apprentissage", action="store_true",
+                   help="le CSV de test est un export COMPLET : on en retire d'abord les lignes présentes dans le CSV d'apprentissage")
+    v.add_argument("--graine", type=int, default=0)
     a = p.parse_args(argv)
     noms = NOMS[a.etape]
 
@@ -33,6 +41,14 @@ def main(argv: list[str] | None = None) -> int:
         X, y = generer(a.etape, a.n, a.graine)
         en.ecrire_csv(a.sortie, noms, list(zip(X, y)))
         print(f"{a.n} exemples FICTIFS écrits dans {a.sortie} : à n'utiliser que pour tester le code.", file=sys.stderr)
+        return 0
+
+    if a.cmd == "evaluer":
+        Xa, ya = en.lire_csv(a.apprentissage, noms)
+        Xt, yt = en.lire_csv(a.test, noms)
+        if a.retirer_apprentissage:
+            Xt, yt = en.retirer_lignes(Xt, yt, Xa, ya)
+        print(json.dumps(en.evaluer_independant(a.etape, noms, Xa, ya, Xt, yt, a.graine), indent=2, ensure_ascii=False))
         return 0
 
     X, y = en.lire_csv(a.csv, noms)

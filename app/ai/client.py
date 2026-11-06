@@ -7,7 +7,8 @@ import httpx
 from app.config import settings
 from app.core.exceptions import IAIndisponible
 
-
+import logging 
+log = logging.getLogger(__name__)
 class ClientIA(Protocol):
     nom_modele: str
 
@@ -36,7 +37,11 @@ class GeminiClient:
             )
             r.raise_for_status()
             return r.json()["candidates"][0]["content"]["parts"][0]["text"]
+        except httpx.HTTPStatusError as exc:
+            log.warning("Gemini a répondu HTTP %s : %s", exc.response.status_code, exc.response.text[:300])
+            raise IAIndisponible("Le service d'IA est indisponible.") from exc
         except httpx.HTTPError as exc:
+            log.warning("Appel à Gemini impossible : %s", type(exc).__name__)
             raise IAIndisponible("Le service d'IA est indisponible.") from exc
         except (KeyError, IndexError, ValueError) as exc:
             raise IAIndisponible("Réponse du service d'IA inexploitable.") from exc

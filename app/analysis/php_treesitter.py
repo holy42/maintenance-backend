@@ -54,7 +54,7 @@ class AnalyseurPHPTreeSitter(AnalyseurCode):
                 src = fichier.read_bytes()
             except OSError:
                 continue
-            rel = str(fichier.relative_to(racine))
+            rel = fichier.relative_to(racine).as_posix()          # « / » sous Windows aussi
             arbre = parseur.parse(src)
             lignes = src.splitlines()
             if "php.syntaxe" in regles_actives and arbre.root_node.has_error:
