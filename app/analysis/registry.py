@@ -1,8 +1,9 @@
 """Registre des analyseurs disponibles. Ajouter une technologie = écrire un adaptateur et l'enregistrer ici."""
 from app.analysis.base import AnalyseurCode
 from app.analysis.php_treesitter import AnalyseurPHPTreeSitter
+from app.analysis.php_phpstan import AnalyseurPHPStan
 
-_ANALYSEURS: list[AnalyseurCode] = [AnalyseurPHPTreeSitter()]
+_ANALYSEURS: list[AnalyseurCode] = [AnalyseurPHPTreeSitter(), AnalyseurPHPStan()]
 
 
 def analyseurs_pour(technologies: set[str], regles_actives: set[str]) -> list[AnalyseurCode]:

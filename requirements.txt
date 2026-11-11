@@ -13,5 +13,6 @@ cryptography
 httpx
 tree-sitter
 tree-sitter-php
+anthropic
 # --- développement et tests ---
 pytest

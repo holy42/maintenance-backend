@@ -21,9 +21,18 @@ class Settings(BaseSettings):
     gemini_model: str = "gemini-2.5-flash"
     ai_timeout_seconds: float = 30.0
     ai_max_context_chars: int = 12000
+    claude_api_key: str = ""
+    claude_model: str = "claude-sonnet-5-5"
+    claude_max_tokens: int = 8000
 
     git_workdir: str = "./var/depots"
     git_timeout_seconds: int = 120
+    
+        # Second analyseur PHP (PHPStan). Commande sous forme de liste, ex. ["php", "C:/outils/phpstan.phar"].
+    phpstan_commande: list[str] = ["phpstan"]
+    phpstan_niveau: int = 5
+    phpstan_timeout_secondes: int = 300
+    phpstan_signaler_classes_inconnues: bool = False
 
     smtp_enabled: bool = False
     smtp_host: str = "localhost"

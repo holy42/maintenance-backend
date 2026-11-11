@@ -114,6 +114,7 @@ def demander_diagnostic(probleme_id: int, db: Session = Depends(get_db), user: U
     p, _ = probleme_autorise(db, user, probleme_id, Perm.PROBLEME_MODIFIER, ecriture=True)
     d = svc_diag.generer_diagnostic(db, p, user, ia)
     ServiceFiabilite(db).annoter_diagnostics([d])
+    demander_diagnostic
     return d
 
 

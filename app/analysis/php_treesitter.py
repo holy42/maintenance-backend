@@ -5,6 +5,7 @@ import re
 from pathlib import Path
 
 from app.analysis.base import AnalyseurCode, Constat
+from app.analysis.php_regles_securite import REGLES_SECURITE, detecter_securite
 
 try:  # dépendances à installer (voir requirements.txt)
     import tree_sitter_php as _tsphp
@@ -40,7 +41,7 @@ def _fonction_englobante(noeud, src: bytes) -> str | None:
 class AnalyseurPHPTreeSitter(AnalyseurCode):
     nom = "tree-sitter"
     technologies = frozenset({"php"})
-    regles = frozenset({"php.syntaxe", "php.sql_concat"})
+    regles = frozenset({"php.syntaxe", "php.sql_concat"}) | REGLES_SECURITE
 
     def analyser(self, racine: Path, dossiers: list[str], exclusions: list[str], regles_actives: set[str]) -> list[Constat]:
         if _LANGUE is None:
@@ -61,6 +62,9 @@ class AnalyseurPHPTreeSitter(AnalyseurCode):
                 constats += self._erreurs_syntaxe(arbre.root_node, src, lignes, rel)
             if "php.sql_concat" in regles_actives:
                 constats += self._sql_concatene(arbre.root_node, src, lignes, rel)
+            actives_securite = regles_actives & REGLES_SECURITE
+            if actives_securite:
+                constats += detecter_securite(arbre.root_node, src, lignes, rel, actives_securite, self.nom, self._extrait)
         return constats
 
     @staticmethod
