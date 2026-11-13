@@ -12,8 +12,8 @@ from app.api.helpers import application_autorisee, obtenir, probleme_autorise
 from app.core.enums import Perm
 from app.core.permissions import applications_accessibles_ids
 from app.database import get_db
-from app.models import EvenementHistorique, Notification, PreferenceNotification, Rapport, Tache, Utilisateur
-from app.schemas.collaboration import NotificationOut, PreferenceIn
+from app.models import EvenementHistorique, Notification, PreferenceCanalNotification, PreferenceNotification, Rapport, Tache, Utilisateur
+from app.schemas.collaboration import NotificationOut, PreferenceCanalNotificationIn, PreferenceIn
 from app.schemas.common import Message
 from app.services import rapports as svc_rapports
 
@@ -24,7 +24,8 @@ router = APIRouter(tags=["Suivi"])
 
 @router.get("/notifications", response_model=list[NotificationOut])
 def notifications(non_lues: bool = False, type_evenement: str | None = None, application_id: int | None = None,
-                  limit: int = 100, db: Session = Depends(get_db), user: Utilisateur = Depends(utilisateur_courant)):
+                  apres_id: int | None = None, limit: int = 100, db: Session = Depends(get_db),
+                  user: Utilisateur = Depends(utilisateur_courant)):
     q = select(Notification).where(Notification.destinataire_id == user.id)
     if non_lues:
         q = q.where(Notification.lu.is_(False))
@@ -32,15 +33,20 @@ def notifications(non_lues: bool = False, type_evenement: str | None = None, app
         q = q.where(Notification.type_evenement == type_evenement)
     if application_id:
         q = q.where(Notification.application_id == application_id)
-    return db.execute(q.order_by(Notification.cree_le.desc()).limit(min(limit, 300))).scalars().all()
+    if apres_id is not None:
+        q = q.where(Notification.id > apres_id).order_by(Notification.id.asc())
+    else:
+        q = q.order_by(Notification.cree_le.desc())
+    return db.execute(q.limit(min(limit, 300))).scalars().all()
 
 
 @router.get("/notifications/compteur")
 def compteur(db: Session = Depends(get_db), user: Utilisateur = Depends(utilisateur_courant)):
     from sqlalchemy import func
-    n = db.scalar(select(func.count()).select_from(Notification).where(
-        Notification.destinataire_id == user.id, Notification.lu.is_(False)))
-    return {"non_lues": n or 0}
+    non_lues, dernier_id = db.execute(select(
+        func.count().filter(Notification.lu.is_(False)), func.max(Notification.id)
+    ).where(Notification.destinataire_id == user.id)).one()
+    return {"non_lues": non_lues or 0, "dernier_id": dernier_id}
 
 
 @router.post("/notifications/tout-lire", response_model=Message)
@@ -87,6 +93,28 @@ def definir_preferences(data: list[PreferenceIn], db: Session = Depends(get_db),
         else:
             p.active = d.active
     return Message(message="Préférences enregistrées.")
+
+
+@router.get("/notifications/preferences-canaux", response_model=PreferenceCanalNotificationIn)
+def preferences_canaux(db: Session = Depends(get_db), user: Utilisateur = Depends(utilisateur_courant)):
+    pref = db.get(PreferenceCanalNotification, user.id)
+    if pref is None:
+        return PreferenceCanalNotificationIn()
+    return PreferenceCanalNotificationIn(son=pref.son_active, navigateur=pref.navigateur_actif)
+
+
+@router.put("/notifications/preferences-canaux", response_model=Message)
+def definir_preferences_canaux(data: PreferenceCanalNotificationIn, db: Session = Depends(get_db),
+                               user: Utilisateur = Depends(utilisateur_courant)):
+    pref = db.get(PreferenceCanalNotification, user.id)
+    if pref is None:
+        db.add(PreferenceCanalNotification(
+            utilisateur_id=user.id, son_active=data.son, navigateur_actif=data.navigateur,
+        ))
+    else:
+        pref.son_active = data.son
+        pref.navigateur_actif = data.navigateur
+    return Message(message="Préférences de notification enregistrées.")
 
 
 # ---------- Historique (toutes les activités, quel que soit l'auteur ; lecture seule) ----------

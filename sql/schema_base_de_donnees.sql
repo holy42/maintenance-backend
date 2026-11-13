@@ -565,6 +565,12 @@ CREATE TABLE preference_notification (
     PRIMARY KEY (utilisateur_id, type_evenement)
 );
 
+CREATE TABLE preference_canal_notification (
+    utilisateur_id   BIGINT PRIMARY KEY REFERENCES utilisateur(id) ON DELETE CASCADE,
+    son_active       BOOLEAN NOT NULL DEFAULT TRUE,
+    navigateur_actif BOOLEAN NOT NULL DEFAULT TRUE
+);
+
 
 -- ---------- 8. Historique de toutes les activités (ajout seul) -------
 

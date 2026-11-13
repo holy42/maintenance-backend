@@ -34,6 +34,9 @@ pytest                                                    # tests sans base ; av
 Ensuite, via l'API : créer une équipe, attribuer des rôles (`/api/v1/equipes/{id}/membres`), créer une application,
 configurer son dépôt, ajouter ses technologies (`php`), puis lancer une vérification.
 
+Les préférences personnelles des notifications (événements et canaux son/navigateur) se règlent depuis « Mon compte ».
+Les canaux sont activés par défaut ; la permission système du navigateur doit toutefois être accordée séparément.
+
 ## Échéances (cron)
 
 ```
@@ -90,6 +93,7 @@ détecte ni ne diagnostique rien. Un même code, entraîné séparément pour ch
 - Minimum pour entraîner : 150 exemples étiquetés, dont 30 de chaque classe (`app/fiabilite/entrainement.py`).
 - Base : tables `modele_fiabilite` et `evaluation_fiabilite`, colonne `diagnostic.verifications_recommandees`. Base déjà créée : `alembic upgrade head`
   (la révision 0002 est idempotente).
+- La révision `0003` ajoute les préférences personnelles des canaux de notification et est idempotente.
 - Les « vérifications recommandées » sont rédigées par Gemini puis contrôlées par des règles (`app/fiabilite/verifications.py`).
 
 ```bash

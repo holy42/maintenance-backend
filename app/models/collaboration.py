@@ -110,3 +110,10 @@ class PreferenceNotification(Base):
     utilisateur_id: Mapped[int] = mapped_column(ForeignKey("utilisateur.id", ondelete="CASCADE"), primary_key=True)
     type_evenement: Mapped[str] = mapped_column(String(40), primary_key=True)
     active: Mapped[bool] = mapped_column(Boolean, server_default=text("true"), default=True)
+
+
+class PreferenceCanalNotification(Base):
+    __tablename__ = "preference_canal_notification"
+    utilisateur_id: Mapped[int] = mapped_column(ForeignKey("utilisateur.id", ondelete="CASCADE"), primary_key=True)
+    son_active: Mapped[bool] = mapped_column(Boolean, server_default=text("true"), default=True)
+    navigateur_actif: Mapped[bool] = mapped_column(Boolean, server_default=text("true"), default=True)

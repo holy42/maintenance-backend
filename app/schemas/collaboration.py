@@ -94,5 +94,10 @@ class PreferenceIn(BaseModel):
     active: bool
 
 
+class PreferenceCanalNotificationIn(BaseModel):
+    son: bool = True
+    navigateur: bool = True
+
+
 class ContenuIn(BaseModel):
     contenu: str = Field(min_length=1)
