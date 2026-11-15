@@ -16,7 +16,7 @@ _VARIABLE = re.compile(rb"\$[A-Za-z_]\w*")
 _PROTECTION_XSS = re.compile(
     rb"(?i)\b(?:htmlspecialchars|htmlentities|strip_tags|esc_html|intval|floatval|number_format|urlencode|rawurlencode|json_encode)\s*\("
     rb"|\(\s*(?:int|float)\s*\)")
-_CLE_SENSIBLE = re.compile(rb"(?i)(?<![a-z])(?:password|passwd|pwd|pass|secret|api_?key|token|auth_?key)(?![a-z])")
+_CLE_SENSIBLE = re.compile(rb"(?i)(?<![a-z])(?:password|passwd|pwd|pass|secret|api_?key|token|auth_?key|mot_?de_?passe|motdepasse|mdp|cle_?api|cle_?secrete|jeton)(?![a-z])")
 _DEFINE = re.compile(rb"""(?is)^define\s*\(\s*['"](?P<cle>[^'"]+)['"]\s*,\s*(?P<q>['"])(?P<val>[^'"\n$]{4,})(?P=q)""")
 _AFFECTATION = re.compile(rb"""(?s)^(?P<cle>[^=,(]*?)\s*(?:=>|\.?=)\s*(?P<q>['"])(?P<val>[^'"\n$]{4,})(?P=q)""")
 _FAUSSE_VALEUR = re.compile(rb"(?i)^(?:x+|\*+|\.+|changeme|change_me|your[_ -].*|<.*>|password|secret|token|null|none|todo)$")
@@ -151,4 +151,6 @@ def detecter_securite(root, src: bytes, lignes: list[bytes], rel: str, actives: 
             if r:
                 ajouter("php.include_dynamique", r[0], r[1], "Le chemin du fichier inclus contient une variable. "
                         "La règle ne sait pas si elle est contrôlée : un humain doit confirmer.", n)
+        
+    
     return [c for liste in res.values() for c in liste]

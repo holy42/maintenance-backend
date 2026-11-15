@@ -1,0 +1,6 @@
+﻿id_resultat,fichier,ligne,categorie,etiqueteur_1,etiqueteur_2,motif_etiqueteur_2
+811,src/Service/Calculs.php,21,erreur_technique,FAUX,REEL,"config/titres.php n'existe pas : include échoue, $titre_page est indéfinie."
+752,tests/Fixtures.php,14,securite,FAUX,REEL,"Injection SQL réelle mais dans tests/Fixtures.php, code de test non déployé."
+754,third_party/LegacyExport.php,14,securite,FAUX,REEL,Injection SQL réelle mais dans third_party/ (« ne pas modifier ») : à traiter côté fournisseur / mise à jour.
+755,third_party/Paginator.php,14,securite,FAUX,REEL,Injection SQL réelle mais dans third_party/ (« ne pas modifier »).
+814,src/Service/Calculs.php,36,erreur_technique,FAUX,REEL,"Dépend de l'extension ionCube, non déclarée : défaut réel si elle est absente. ioncube_read_file() n'existe que si l'extension ionCube est chargée : à confirmer selon l'environnement cible."

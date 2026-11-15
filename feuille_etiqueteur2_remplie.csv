@@ -1,0 +1,86 @@
+﻿id_resultat;fichier;ligne;categorie;extrait_code;decision;motif
+804;src/Util/ControlesSecurite.php;151;securite;"move_uploaded_file($_FILES['piece']['tmp_name'], $dest);";FAUX;Nom passé par basename() et filtré par liste blanche (.pdf/.png) avant move_uploaded_file. Risque résiduel (écrasement, pas de contrôle MIME) mais pas le défaut signalé.
+770;src/Model/AdherentRepository.php;68;securite;"$r = $this->pdo->query(""SELECT * FROM "" . $table . "" ORDER BY id"");";FAUX;$table est une constante locale 'livres', aucune donnée utilisateur dans la requête.
+825;templates/livre_fiche.php;3;erreur_technique;"<p>Référence : <?= htmlspecialchars($livre['reference']) ?></p>
+<p>Quantité : <?= (int) $livre['exemplaires'] ?></p>";FAUX;Sorties échappées (htmlspecialchars) ou castées (int). Le vrai défaut est dans LivreController::afficher (ligne 36) : $livre peut être null.
+772;src/Model/EmpruntRepository.php;65;securite;"$r = $this->pdo->query(""SELECT * FROM emprunts WHERE statut = '"" . $v . ""'"");";REEL;$_GET['q'] concaténé dans le SQL : injection SQL.
+746;config/config.php;6;securite;'mot_de_passe' => '[MASQUE]',;REEL;Mot de passe BD en dur dans config/config.php, versionné (valeur fictive d'après le README, mais le motif est réel). Extrait masqué : vérifié dans le source.
+756;src/Controller/AdminController.php;15;securite;"echo Csv::encoder($lignes);";FAUX;Pas de XSS : Content-Type text/csv. Défauts réels hors règle : endpoint sans authentification qui exporte tout adherents (hashs md5 inclus) et pas de neutralisation des formules CSV.
+803;src/Util/ControlesSecurite.php;140;securite;"move_uploaded_file($_FILES['photo']['tmp_name'], $dest);";REEL;Upload $_FILES['photo']['name'] sans aucun contrôle : traversée de chemin, écrasement, dépôt de fichier exécutable.
+760;src/Controller/LivreController.php;54;securite;"$r = $this->pdo->query(""INSERT INTO adherents (email) VALUES ('"" . $_POST['nom'] . ""')"");";REEL;$_POST['nom'] concaténé dans un INSERT : injection SQL.
+779;src/Model/LivreRepository.php;65;securite;"$r = $this->pdo->query(""SELECT * FROM adherents WHERE nom = "" . $this->pdo->quote($_GET['statut']));";FAUX;Valeur protégée par PDO::quote().
+811;src/Service/Calculs.php;21;erreur_technique;"include __DIR__ . '/../../config/titres.php';
+        return $titre_page;
+    }";REEL;config/titres.php n'existe pas : include échoue, $titre_page est indéfinie.
+785;src/Service/Rapport4.php;10;erreur_technique;"return ['nom', 'email' 'statut', 'date'];
+    }";REEL;Virgule manquante entre 'email' et 'statut' : erreur de syntaxe (le fichier ne se charge pas).
+812;src/Service/Calculs.php;26;erreur_technique;"{
+        return formater_montant_eur($montant);
+    }";REEL;formater_montant_eur() n'est définie nulle part : Error à l'exécution.
+777;src/Model/LivreRepository.php;51;securite;"$r = $this->pdo->query(""SELECT * FROM livres WHERE id = "" . (int) $_GET['nom']);";FAUX;Valeur castée en (int) avant concaténation.
+821;src/Service/LivreService.php;15;erreur_technique;"}
+        return $libelle;
+    }";REEL;$libelle non défini quand $restant <= 0 (pas de else) : variable indéfinie.
+794;src/Util/ControlesSecurite.php;59;securite;"$mot_de_passe_aide = '[MASQUE]';";FAUX;Faux secret : texte d'aide affiché à l'utilisateur ('Au moins 8 caractères avec un chiffre').
+761;src/Controller/LivreController.php;60;securite;"$r = $this->pdo->query(""INSERT INTO livres (nom) VALUES ('"" . $_POST['code'] . ""')"");";REEL;$_POST['code'] concaténé dans un INSERT : injection SQL.
+792;src/Util/ControlesSecurite.php;51;securite;'cle_api' => '[MASQUE]',;REEL;Clé d'API en dur dans le code (valeur fictive 'ak_live_...', mais le motif est réel).
+799;src/Util/ControlesSecurite.php;132;securite;"$cle = md5('pass_' . $id);";FAUX;Clé de cache, pas un mot de passe : md5 acceptable ici. Seul le préfixe 'pass_' induit en erreur.
+752;tests/Fixtures.php;14;securite;"$r = $this->pdo->query(""SELECT * FROM adherents WHERE nom = '"" . $_GET['q'] . ""'"");";REEL;Injection SQL réelle mais dans tests/Fixtures.php, code de test non déployé.
+763;src/Controller/LivreController.php;74;securite;"$r = $this->pdo->query(""SELECT * FROM adherents ORDER BY "" . $_GET['tri']);";REEL;ORDER BY avec $_GET['tri'] brut : injection SQL (pas de liste blanche).
+783;src/Service/Rapport1.php;12;erreur_technique;"$somme += (int) $ligne['quantite']
+        }";REEL;Point-virgule manquant après $somme += ... : erreur de syntaxe.
+806;src/Util/ControlesSecurite.php;78;securite;"exec($commande);";REEL;exec() sur une commande construite avec $_GET['fichier'] : injection de commande.
+766;src/Model/AdherentRepository.php;40;securite;"$r = $this->pdo->query(""SELECT * FROM livres WHERE nom = '"" . $_COOKIE['cat'] . ""'"");";REEL;$_COOKIE['cat'] concaténé dans le SQL : injection SQL.
+759;src/Controller/LivreController.php;48;securite;"$r = $this->pdo->query(""SELECT * FROM adherents WHERE email = '"" . $_GET['nom'] . ""'"");";REEL;$_GET['nom'] concaténé dans le SQL : injection SQL.
+762;src/Controller/LivreController.php;68;securite;"$r = $this->pdo->query(""SELECT * FROM adherents WHERE email LIKE '%"" . $v . ""%'"");";REEL;$v issu de $_POST (simple trim) concaténé dans un LIKE : injection SQL.
+817;src/Service/Calculs.php;51;erreur_technique;"{
+        return round($valeur, 2, PHP_ROUND_HALF_UP, 'trop');
+    }";REEL;round() appelée avec 4 arguments : ArgumentCountError en PHP 8.
+764;src/Controller/LivreController.php;82;securite;"$r = $this->pdo->query(""SELECT * FROM livres ORDER BY "" . $tri);";FAUX;$tri vient d'une liste blanche (in_array strict) avec repli sur 'nom'.
+749;src/autoload.php;11;securite;"require $chemin;";FAUX;Le chemin est dérivé du nom de classe demandé à l'autoloader (préfixe App\ imposé, is_file vérifié), pas d'entrée utilisateur.
+751;tests/EmpruntServiceTest.php;11;securite;"echo ($condition ? 'OK    ' : 'ECHEC ') . $message . PHP_EOL;";FAUX;echo d'un message de test et d'une constante, hors flux HTTP.
+801;src/Util/ControlesSecurite.php;103;securite;"require_once $racine . '/config/config.php';";FAUX;Chemin entièrement constant (__DIR__).
+808;src/Util/ControlesSecurite.php;90;securite;"$copie = unserialize(serialize($config));";FAUX;unserialize sur le résultat d'un serialize du même tableau, aucune donnée externe.
+818;src/Service/Calculs.php;56;erreur_technique;"{
+        return $somme / 0;
+    }";REEL;Division par 0 en dur : DivisionByZeroError systématique.
+805;src/Util/ControlesSecurite.php;71;securite;"$objet = unserialize($donnees);";REEL;unserialize() sur $_COOKIE['panier'] : désérialisation d'objets non fiable.
+780;src/Model/LivreRepository.php;71;securite;"$r = $this->pdo->query(""SELECT * FROM livres WHERE reference = "" . $this->pdo->quote($_GET['ref']));";FAUX;Valeur protégée par PDO::quote().
+775;src/Model/EmpruntRepository.php;86;securite;"$r = $this->pdo->query(""SELECT * FROM livres WHERE id = "" . $id);";FAUX;$id passé par intval() avant concaténation.
+787;src/Util/ControlesSecurite.php;21;securite;"echo ""<p>Bonjour "" . $_POST['nom'] . ""</p>"";";REEL;$_POST['nom'] affiché sans échappement (la ligne suivante échappe, pas celle-ci) : XSS.
+773;src/Model/EmpruntRepository.php;73;securite;"$r = $this->pdo->query(""SELECT * FROM livres WHERE reference LIKE '%"" . $v . ""%'"");";REEL;$v issu de $_POST (simple trim) concaténé dans un LIKE : injection SQL.
+784;src/Service/Rapport3.php;15;erreur_technique;};REEL;Accolade fermante de la classe manquante en fin de fichier : erreur de syntaxe.
+789;src/Util/ControlesSecurite.php;34;securite;"echo ""<h1>$titre</h1>"";";FAUX;$titre est une chaîne littérale, pas d'entrée utilisateur.
+747;config/config.php;7;securite;'cle_api_courrier' => '[MASQUE]',;REEL;Clé d'API en dur dans config/config.php, versionnée (valeur fictive, motif réel).
+781;src/Service/AuthService.php;16;securite;"return $this->adherents->creer($nom, $email, md5($mdp));";REEL;Mot de passe haché avec md5, sans sel : hachage inadapté (utiliser password_hash).
+800;src/Util/ControlesSecurite.php;97;securite;"include 'modules/' . $_GET['page'] . '.php';";REEL;include construit avec $_GET['page'] : inclusion de fichier locale (LFI).
+769;src/Model/AdherentRepository.php;61;securite;"$r = $this->pdo->query(""SELECT * FROM "" . $table . "" ORDER BY id"");";FAUX;$table est une constante locale 'livres'.
+819;src/Service/Calculs.php;62;erreur_technique;"return $n * 2;
+        $n = 0;
+    }";REEL;Code mort : $n = 0 après return (qualité, gravité faible).
+754;third_party/LegacyExport.php;14;securite;"$r = $this->pdo->query(""SELECT * FROM livres WHERE reference = '"" . $_GET['id'] . ""'"");";REEL;Injection SQL réelle mais dans third_party/ (« ne pas modifier ») : à traiter côté fournisseur / mise à jour.
+802;src/Util/ControlesSecurite.php;109;securite;"include $gabarit;";FAUX;Chemin entièrement constant.
+795;src/Util/ControlesSecurite.php;61;securite;'token_type' => '[MASQUE]',;FAUX;'token_type' => 'Bearer' est un libellé de protocole, pas un secret.
+774;src/Model/EmpruntRepository.php;79;securite;"$r = $this->pdo->query(""SELECT * FROM adherents WHERE id = "" . (int) $_GET['ville']);";FAUX;Valeur castée en (int).
+820;src/Service/Calculs.php;67;erreur_technique;"{
+        $ok = is_string($nom);
+        return $ok;";FAUX;Aucune erreur : is_string() sur un paramètre déjà typé string est toujours vrai (code redondant, pas un défaut).
+797;src/Util/ControlesSecurite.php;121;securite;"return sha1($mdp);";REEL;sha1 pour des mots de passe : hachage faible et rapide.
+768;src/Model/AdherentRepository.php;54;securite;"$r = $this->pdo->query(""SELECT * FROM adherents WHERE id = "" . $id);";FAUX;$id passé par intval().
+791;src/Util/ControlesSecurite.php;47;securite;"$mot_de_passe_smtp = '[MASQUE]';";REEL;Mot de passe SMTP en dur (valeur fictive, motif réel).
+758;src/Controller/LivreController.php;42;securite;"$r = $this->pdo->query(""SELECT * FROM adherents WHERE email = '"" . $_GET['tri'] . ""'"");";REEL;$_GET['tri'] concaténé dans un WHERE : injection SQL.
+815;src/Service/Calculs.php;41;erreur_technique;"{
+        return $numero * 10;
+    }";REEL;Retourne un int alors que la signature déclare string : ne passe qu'en typage faible (fichier sans strict_types). Gravité faible.
+810;src/Service/Calculs.php;15;erreur_technique;"}
+        return strtoupper($libelle);
+    }";REEL;$libelle non défini si $actif est faux : variable indéfinie.
+788;src/Util/ControlesSecurite.php;28;securite;"echo $commentaire;";REEL;$_POST['commentaire'] affiché sans échappement : XSS.
+809;src/Service/Calculs.php;7;erreur_technique;"{
+        return $prix * $quantite - $remise;
+    }";REEL;$remise n'est ni paramètre ni variable définie : variable indéfinie.
+778;src/Model/LivreRepository.php;59;securite;"$r = $this->pdo->query(""SELECT * FROM livres ORDER BY "" . $tri);";FAUX;$tri vient d'une liste blanche (in_array strict).
+755;third_party/Paginator.php;14;securite;"$r = $this->pdo->query(""SELECT * FROM livres WHERE reference = '"" . $_GET['statut'] . ""'"");";REEL;Injection SQL réelle mais dans third_party/ (« ne pas modifier »).
+814;src/Service/Calculs.php;36;erreur_technique;"{
+        return ioncube_read_file($cle);
+    }";REEL;Dépend de l'extension ionCube, non déclarée : défaut réel si elle est absente. ioncube_read_file() n'existe que si l'extension ionCube est chargée : à confirmer selon l'environnement cible.

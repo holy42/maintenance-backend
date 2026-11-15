@@ -24,6 +24,28 @@ def _resume(y: Sequence[int], p: Sequence[float], graine: int) -> dict:
     return r
 
 
+def calibrer_hors_echantillon(oof: Sequence[float], y: Sequence[int], k: int = 5, graine: int = 0) -> list[float]:
+    """Probabilités APRÈS calibration (Platt), estimées honnêtement : le calibreur appliqué à un exemple n'a jamais vu cet exemple
+    (il est appris sur les autres paquets). Sert à comparer les modèles tels qu'ils seront réellement utilisés."""
+    n = len(y)
+    ordre = list(range(n))
+    random.Random(graine).shuffle(ordre)
+    paquets = [ordre[i::k] for i in range(k)]
+    sortie = [0.0] * n
+    for paquet in paquets:
+        dans = set(paquet)
+        reste = [i for i in range(n) if i not in dans]
+        yr = [y[i] for i in reste]
+        if sum(yr) == 0 or sum(yr) == len(yr):          # une seule classe : calibration impossible, on garde le score brut
+            for i in paquet:
+                sortie[i] = oof[i]
+            continue
+        cal = CalibrateurPlatt().fit([oof[i] for i in reste], yr)
+        for i in paquet:
+            sortie[i] = cal.appliquer(oof[i])
+    return sortie
+
+
 def comparer(X: Sequence[Sequence[float]], y: Sequence[int], k: int = 5, repetitions: int = 3, graine: int = 0,
              confiance_declaree: Sequence[float] | None = None, avec_sklearn: bool = False) -> dict:
     """Validation croisée répétée de chaque modèle. Les prédictions sont « hors échantillon ». Avec peu de données, lire les intervalles
@@ -34,11 +56,18 @@ def comparer(X: Sequence[Sequence[float]], y: Sequence[int], k: int = 5, repetit
     res: dict = {"n": len(y), "prevalence": sum(y) / len(y), "k": k, "repetitions": repetitions, "modeles": {}}
     for nom, fabrique in CANDIDATS.items():
         oof = m.validation_croisee(X, y, fabrique, k=k, graine=graine, repetitions=repetitions)
-        res["modeles"][nom] = _resume(y, oof, graine)
+        if nom == "constant":
+            res["modeles"][nom] = _resume(y, oof, graine)
+            continue
+        # Les modèles sont comparés APRÈS calibration (c'est ainsi qu'ils sont utilisés) ; les chiffres d'avant sont gardés à titre d'information.
+        apres = _resume(y, calibrer_hors_echantillon(oof, y, k=k, graine=graine), graine)
+        apres["avant_calibration"] = m.rapport(y, oof)
+        res["modeles"][nom] = apres
     if confiance_declaree is not None:     # étape 6 : la confiance déclarée par Gemini est-elle déjà informative ?
         res["modeles"]["confiance_declaree_par_gemini"] = _resume(y, list(confiance_declaree), graine)
     if avec_sklearn:
         res["modeles"].update(_reference_sklearn(X, y, k, graine))
+    res["calibration"] = "apres"      # brier, ece et auc de chaque modèle sont mesurés après calibration (hors échantillon)
     res["recommande"] = choisir(res)
     return res
 

@@ -1,0 +1,86 @@
+﻿id_resultat;fichier;ligne;categorie;extrait_code;decision;motif
+804;src/Util/ControlesSecurite.php;151;securite;"move_uploaded_file($_FILES['piece']['tmp_name'], $dest);";;
+770;src/Model/AdherentRepository.php;68;securite;"$r = $this->pdo->query(""SELECT * FROM "" . $table . "" ORDER BY id"");";;
+825;templates/livre_fiche.php;3;erreur_technique;"<p>Référence : <?= htmlspecialchars($livre['reference']) ?></p>
+<p>Quantité : <?= (int) $livre['exemplaires'] ?></p>";;
+772;src/Model/EmpruntRepository.php;65;securite;"$r = $this->pdo->query(""SELECT * FROM emprunts WHERE statut = '"" . $v . ""'"");";;
+746;config/config.php;6;securite;'mot_de_passe' => '[MASQUE]',;;
+756;src/Controller/AdminController.php;15;securite;"echo Csv::encoder($lignes);";;
+803;src/Util/ControlesSecurite.php;140;securite;"move_uploaded_file($_FILES['photo']['tmp_name'], $dest);";;
+760;src/Controller/LivreController.php;54;securite;"$r = $this->pdo->query(""INSERT INTO adherents (email) VALUES ('"" . $_POST['nom'] . ""')"");";;
+779;src/Model/LivreRepository.php;65;securite;"$r = $this->pdo->query(""SELECT * FROM adherents WHERE nom = "" . $this->pdo->quote($_GET['statut']));";;
+811;src/Service/Calculs.php;21;erreur_technique;"include __DIR__ . '/../../config/titres.php';
+        return $titre_page;
+    }";;
+785;src/Service/Rapport4.php;10;erreur_technique;"return ['nom', 'email' 'statut', 'date'];
+    }";;
+812;src/Service/Calculs.php;26;erreur_technique;"{
+        return formater_montant_eur($montant);
+    }";;
+777;src/Model/LivreRepository.php;51;securite;"$r = $this->pdo->query(""SELECT * FROM livres WHERE id = "" . (int) $_GET['nom']);";;
+821;src/Service/LivreService.php;15;erreur_technique;"}
+        return $libelle;
+    }";;
+794;src/Util/ControlesSecurite.php;59;securite;"$mot_de_passe_aide = '[MASQUE]';";;
+761;src/Controller/LivreController.php;60;securite;"$r = $this->pdo->query(""INSERT INTO livres (nom) VALUES ('"" . $_POST['code'] . ""')"");";;
+792;src/Util/ControlesSecurite.php;51;securite;'cle_api' => '[MASQUE]',;;
+799;src/Util/ControlesSecurite.php;132;securite;"$cle = md5('pass_' . $id);";;
+752;tests/Fixtures.php;14;securite;"$r = $this->pdo->query(""SELECT * FROM adherents WHERE nom = '"" . $_GET['q'] . ""'"");";;
+763;src/Controller/LivreController.php;74;securite;"$r = $this->pdo->query(""SELECT * FROM adherents ORDER BY "" . $_GET['tri']);";;
+783;src/Service/Rapport1.php;12;erreur_technique;"$somme += (int) $ligne['quantite']
+        }";;
+806;src/Util/ControlesSecurite.php;78;securite;"exec($commande);";;
+766;src/Model/AdherentRepository.php;40;securite;"$r = $this->pdo->query(""SELECT * FROM livres WHERE nom = '"" . $_COOKIE['cat'] . ""'"");";;
+759;src/Controller/LivreController.php;48;securite;"$r = $this->pdo->query(""SELECT * FROM adherents WHERE email = '"" . $_GET['nom'] . ""'"");";;
+762;src/Controller/LivreController.php;68;securite;"$r = $this->pdo->query(""SELECT * FROM adherents WHERE email LIKE '%"" . $v . ""%'"");";;
+817;src/Service/Calculs.php;51;erreur_technique;"{
+        return round($valeur, 2, PHP_ROUND_HALF_UP, 'trop');
+    }";;
+764;src/Controller/LivreController.php;82;securite;"$r = $this->pdo->query(""SELECT * FROM livres ORDER BY "" . $tri);";;
+749;src/autoload.php;11;securite;"require $chemin;";;
+751;tests/EmpruntServiceTest.php;11;securite;"echo ($condition ? 'OK    ' : 'ECHEC ') . $message . PHP_EOL;";;
+801;src/Util/ControlesSecurite.php;103;securite;"require_once $racine . '/config/config.php';";;
+808;src/Util/ControlesSecurite.php;90;securite;"$copie = unserialize(serialize($config));";;
+818;src/Service/Calculs.php;56;erreur_technique;"{
+        return $somme / 0;
+    }";;
+805;src/Util/ControlesSecurite.php;71;securite;"$objet = unserialize($donnees);";;
+780;src/Model/LivreRepository.php;71;securite;"$r = $this->pdo->query(""SELECT * FROM livres WHERE reference = "" . $this->pdo->quote($_GET['ref']));";;
+775;src/Model/EmpruntRepository.php;86;securite;"$r = $this->pdo->query(""SELECT * FROM livres WHERE id = "" . $id);";;
+787;src/Util/ControlesSecurite.php;21;securite;"echo ""<p>Bonjour "" . $_POST['nom'] . ""</p>"";";;
+773;src/Model/EmpruntRepository.php;73;securite;"$r = $this->pdo->query(""SELECT * FROM livres WHERE reference LIKE '%"" . $v . ""%'"");";;
+784;src/Service/Rapport3.php;15;erreur_technique;};;
+789;src/Util/ControlesSecurite.php;34;securite;"echo ""<h1>$titre</h1>"";";;
+747;config/config.php;7;securite;'cle_api_courrier' => '[MASQUE]',;;
+781;src/Service/AuthService.php;16;securite;"return $this->adherents->creer($nom, $email, md5($mdp));";;
+800;src/Util/ControlesSecurite.php;97;securite;"include 'modules/' . $_GET['page'] . '.php';";;
+769;src/Model/AdherentRepository.php;61;securite;"$r = $this->pdo->query(""SELECT * FROM "" . $table . "" ORDER BY id"");";;
+819;src/Service/Calculs.php;62;erreur_technique;"return $n * 2;
+        $n = 0;
+    }";;
+754;third_party/LegacyExport.php;14;securite;"$r = $this->pdo->query(""SELECT * FROM livres WHERE reference = '"" . $_GET['id'] . ""'"");";;
+802;src/Util/ControlesSecurite.php;109;securite;"include $gabarit;";;
+795;src/Util/ControlesSecurite.php;61;securite;'token_type' => '[MASQUE]',;;
+774;src/Model/EmpruntRepository.php;79;securite;"$r = $this->pdo->query(""SELECT * FROM adherents WHERE id = "" . (int) $_GET['ville']);";;
+820;src/Service/Calculs.php;67;erreur_technique;"{
+        $ok = is_string($nom);
+        return $ok;";;
+797;src/Util/ControlesSecurite.php;121;securite;"return sha1($mdp);";;
+768;src/Model/AdherentRepository.php;54;securite;"$r = $this->pdo->query(""SELECT * FROM adherents WHERE id = "" . $id);";;
+791;src/Util/ControlesSecurite.php;47;securite;"$mot_de_passe_smtp = '[MASQUE]';";;
+758;src/Controller/LivreController.php;42;securite;"$r = $this->pdo->query(""SELECT * FROM adherents WHERE email = '"" . $_GET['tri'] . ""'"");";;
+815;src/Service/Calculs.php;41;erreur_technique;"{
+        return $numero * 10;
+    }";;
+810;src/Service/Calculs.php;15;erreur_technique;"}
+        return strtoupper($libelle);
+    }";;
+788;src/Util/ControlesSecurite.php;28;securite;"echo $commentaire;";;
+809;src/Service/Calculs.php;7;erreur_technique;"{
+        return $prix * $quantite - $remise;
+    }";;
+778;src/Model/LivreRepository.php;59;securite;"$r = $this->pdo->query(""SELECT * FROM livres ORDER BY "" . $tri);";;
+755;third_party/Paginator.php;14;securite;"$r = $this->pdo->query(""SELECT * FROM livres WHERE reference = '"" . $_GET['statut'] . ""'"");";;
+814;src/Service/Calculs.php;36;erreur_technique;"{
+        return ioncube_read_file($cle);
+    }";;

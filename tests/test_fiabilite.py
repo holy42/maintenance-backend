@@ -149,3 +149,22 @@ def test_evaluation_sur_jeu_independant_et_retrait_de_l_apprentissage():
         assert False
     except ValueError:
         pass
+
+
+def test_comparaison_apres_calibration():
+    """Les modèles sont comparés APRÈS calibration (hors échantillon) ; les chiffres d'avant sont conservés à titre d'information."""
+    import random
+    from app.fiabilite.entrainement import calibrer_hors_echantillon, comparer
+    r = random.Random(3)
+    X, y = [], []
+    for _ in range(300):
+        a, b, c = r.random(), r.random(), r.random()
+        X.append([a, b, c] + [r.random() for _ in range(5)])
+        y.append(1 if (a * 2 + (b > 0.5) * 1.5 + r.gauss(0, 0.5)) > 1.6 else 0)
+    res = comparer(X, y, repetitions=1)
+    assert res["calibration"] == "apres"
+    foret = res["modeles"]["foret"]
+    assert "avant_calibration" in foret and foret["ece"] <= foret["avant_calibration"]["ece"]
+    assert "avant_calibration" not in res["modeles"]["constant"]
+    # une seule classe dans un paquet d'apprentissage : pas d'erreur, le score brut est conservé
+    assert calibrer_hors_echantillon([0.2, 0.4, 0.6, 0.8], [1, 1, 1, 1], k=2) == [0.2, 0.4, 0.6, 0.8]

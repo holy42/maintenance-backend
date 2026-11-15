@@ -106,11 +106,16 @@ def _neon(cibles: list[Path], exclus: list[Path], niveau: int, cache: Path) -> s
     return texte
 
 
+def _commande() -> list[str]:
+    """Un chemin relatif (ex. phpstan.phar) est lu depuis le dossier du backend, pas depuis le projet analysé."""
+    return [str(Path(a).resolve()) if i > 0 and Path(a).is_file() else a for i, a in enumerate(settings.phpstan_commande)]
+
+
 def _lancer(racine: Path, cibles: list[Path], exclus: list[Path], niveau: int) -> dict:
     with tempfile.TemporaryDirectory(prefix="phpstan_") as tmp:
         tmp = Path(tmp)
         (tmp / "phpstan.neon").write_text(_neon(cibles, exclus, niveau, tmp / "cache"), encoding="utf-8")
-        cmd = [*settings.phpstan_commande, "analyse", f"--configuration={tmp / 'phpstan.neon'}", "--error-format=json",
+        cmd = [*_commande(), "analyse", f"--configuration={tmp / 'phpstan.neon'}", "--error-format=json",
                "--no-progress", "--no-interaction", "--memory-limit=1G"]
         try:
             r = subprocess.run(cmd, cwd=racine, capture_output=True, text=True, encoding="utf-8", errors="replace",
