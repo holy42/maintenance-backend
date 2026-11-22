@@ -109,7 +109,7 @@ def _neon(cibles: list[Path], exclus: list[Path], niveau: int, cache: Path) -> s
 def _commande() -> list[str]:
     """Un chemin relatif (ex. phpstan.phar) est lu depuis le dossier du backend, pas depuis le projet analysé."""
     return [str(Path(a).resolve()) if i > 0 and Path(a).is_file() else a for i, a in enumerate(settings.phpstan_commande)]
-
+    
 
 def _lancer(racine: Path, cibles: list[Path], exclus: list[Path], niveau: int) -> dict:
     with tempfile.TemporaryDirectory(prefix="phpstan_") as tmp:

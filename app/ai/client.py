@@ -56,14 +56,14 @@ class ClaudeClient:
     def generer_json(self, prompt: str) -> str:
         if not settings.claude_api_key:
             raise IAIndisponible("Service d'IA non configuré.")
-        import anthropic                                        # import tardif : inutile en mode mock
+        import anthropic                                       
         client = anthropic.Anthropic(api_key=settings.claude_api_key, timeout=settings.ai_timeout_seconds, max_retries=2)
         try:
             msg = client.messages.create(
                 model=self.nom_modele, max_tokens=settings.claude_max_tokens,
                 messages=[{"role": "user", "content": prompt}],
             )
-            return "".join(b.text for b in msg.content if b.type == "text")      # ignore les blocs de réflexion
+            return "".join(b.text for b in msg.content if b.type == "text")   
         except anthropic.APIStatusError as exc:
             log.warning("Claude a répondu HTTP %s : %s", exc.status_code, str(exc.message)[:300])
             raise IAIndisponible("Le service d'IA est indisponible.") from exc
