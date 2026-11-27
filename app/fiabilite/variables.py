@@ -1,5 +1,5 @@
 """Variables du modèle de fiabilité. Toutes sont calculables AUTOMATIQUEMENT à partir des données de la plateforme.
-Étape 3 : la preuve fournie par l'outil d'analyse est-elle solide ?   Étape 6 : la solution proposée par Gemini est-elle fiable ?"""
+Étape 3 : la preuve fournie par l'outil d'analyse est-elle solide ?   Étape 6 : la solution proposée par l'IA est-elle fiable ?"""
 import math
 import re
 from dataclasses import dataclass, field
@@ -65,7 +65,7 @@ def variables_etape3(e: EntreeEtape3) -> dict[str, float]:
 
 @dataclass
 class EntreeEtape6:
-    """Une solution proposée par Gemini (dans son diagnostic) + le contexte de la preuve."""
+    """Une solution proposée par l'IA (dans son diagnostic) + le contexte de la preuve."""
     explication: str = ""
     causes: list[str] = field(default_factory=list)
     confiance_declaree: float | None = None
@@ -79,9 +79,21 @@ class EntreeEtape6:
     gravite: str | None = None
     reference_valide: bool | None = None       # le fichier cité existe-t-il ? (None = non vérifiable)
     syntaxe_valide: bool | None = None         # le code proposé est-il syntaxiquement valide ? (None = non vérifiable)
+    format_code: str | None = None             # "diff" ou "extrait" (un contenu qui a l'allure d'un diff est traité comme tel)
 
 
-def _compter_diff(code: str) -> tuple[int, int, int]:
+def _est_diff(code: str, format_code: str | None) -> bool:
+    """Même règle que controles.syntaxe_php_valide : déclaré « diff », ou en a l'allure (l'IA se trompe parfois de format)."""
+    return format_code == "diff" or any(l.startswith(("+++ ", "@@", "diff --git")) for l in code.splitlines())
+
+
+def _compter_diff(code: str, format_code: str | None = None) -> tuple[int, int, int]:
+    """(lignes ajoutées, lignes retirées, fichiers touchés). Un extrait qui n'est pas un diff compte comme du code ajouté :
+    ses lignes commençant par « - » (ex. `-1`, `--$i`, commentaire SQL `-- ...`) ne sont PAS des lignes retirées."""
+    if not code.strip():
+        return 0, 0, 0
+    if not _est_diff(code, format_code):
+        return sum(1 for l in code.splitlines() if l.strip()), 0, 1
     ajoutees = retirees = fichiers = 0
     for ligne in code.splitlines():
         if ligne.startswith("+++ ") or ligne.startswith("diff --git"):
@@ -90,12 +102,12 @@ def _compter_diff(code: str) -> tuple[int, int, int]:
             ajoutees += 1
         elif ligne.startswith("-") and not ligne.startswith("---"):
             retirees += 1
-    return ajoutees, retirees, max(fichiers, 1 if code.strip() else 0)
+    return ajoutees, retirees, max(fichiers, 1)
 
 
 def variables_etape6(e: EntreeEtape6) -> dict[str, float]:
     code = e.extrait_code or ""
-    ajoutees, retirees, fichiers = _compter_diff(code)
+    ajoutees, retirees, fichiers = _compter_diff(code, e.format_code)
     return {
         "confiance_declaree": 0.5 if e.confiance_declaree is None else float(e.confiance_declaree),
         "a_incertitudes": float(bool((e.incertitudes or "").strip())), "nb_causes": float(len(e.causes)),

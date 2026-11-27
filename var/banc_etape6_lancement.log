@@ -1,0 +1,105 @@
+392 problème(s) éligible(s) ; 90 traité(s) dans ce lancement (IA : claude-sonnet-5-5).
+[1/90] problème 3 (php.sql_concat) : sol 70, sol 71, sol 72 — bilan 0 validées / 3 non validées — coût cumulé 0.0447 $
+[2/90] problème 20 (php.syntaxe) : sol 73, sol 74, sol 75 — bilan 0 validées / 5 non validées — coût cumulé 0.0757 $
+[3/90] problème 43 (php.sql_concat) : sol 76, sol 77, sol 78 — bilan 0 validées / 7 non validées — coût cumulé 0.1092 $
+[4/90] problème 62 (php.syntaxe) : sol 79, sol 80 — bilan 1 validées / 7 non validées — coût cumulé 0.1281 $
+[5/90] problème 82 (php.sql_concat) : sol 81, sol 82, sol 83 — bilan 4 validées / 7 non validées — coût cumulé 0.1713 $
+[6/90] problème 91 (php.syntaxe) : sol 84, sol 85 — bilan 5 validées / 7 non validées — coût cumulé 0.1927 $
+[7/90] problème 123 (php.sql_concat) : sol 86, sol 87, sol 88 — bilan 7 validées / 8 non validées — coût cumulé 0.2295 $
+[8/90] problème 138 (php.syntaxe) : sol 89, sol 90, sol 91 — bilan 9 validées / 8 non validées — coût cumulé 0.2604 $
+[9/90] problème 162 (php.sql_concat) : sol 92, sol 93, sol 94, sol 95 — bilan 11 validées / 8 non validées — coût cumulé 0.3062 $
+[10/90] problème 164 (php.syntaxe) : sol 96, sol 97, sol 98 — bilan 11 validées / 10 non validées — coût cumulé 0.3413 $
+[11/90] problème 201 (php.sql_concat) : sol 99, sol 100, sol 101 — bilan 12 validées / 11 non validées — coût cumulé 0.3686 $
+[12/90] problème 202 (php.syntaxe) : sol 102, sol 103, sol 104 — bilan 14 validées / 12 non validées — coût cumulé 0.3978 $
+[13/90] problème 243 (php.syntaxe) : sol 105, sol 106, sol 107 — bilan 14 validées / 14 non validées — coût cumulé 0.4244 $
+[14/90] problème 244 (php.sql_concat) : sol 108, sol 109, sol 110 — bilan 15 validées / 14 non validées — coût cumulé 0.4677 $
+[15/90] problème 259 (php.xss) : sol 111, sol 112, sol 113 — bilan 17 validées / 14 non validées — coût cumulé 0.5091 $
+[16/90] problème 265 (php.hash_faible) : sol 114, sol 115, sol 116 — bilan 18 validées / 14 non validées — coût cumulé 0.5539 $
+[17/90] problème 267 (php.include_dynamique) : sol 117, sol 118, sol 119, sol 120 — bilan 18 validées / 16 non validées — coût cumulé 0.6059 $
+[18/90] problème 268 (php.upload_non_controle) : sol 121, sol 122, sol 123 — bilan 19 validées / 16 non validées — coût cumulé 0.6571 $
+[19/90] problème 269 (php.fonction_dangereuse) : sol 124, sol 125, sol 126 — bilan 20 validées / 18 non validées — coût cumulé 0.7029 $
+[20/90] problème 286 (php.syntaxe) : sol 127, sol 128, sol 129 — bilan 20 validées / 19 non validées — coût cumulé 0.737 $
+[21/90] problème 287 (php.sql_concat) : sol 130, sol 131, sol 132 — bilan 22 validées / 19 non validées — coût cumulé 0.778 $
+[22/90] problème 302 (php.xss) : sol 133, sol 134, sol 135, sol 136 — bilan 23 validées / 19 non validées — coût cumulé 0.8187 $
+[23/90] problème 308 (php.hash_faible) : sol 137, sol 138, sol 139 — bilan 24 validées / 20 non validées — coût cumulé 0.8501 $
+[24/90] problème 310 (php.include_dynamique) : sol 140, sol 141, sol 142 — bilan 24 validées / 22 non validées — coût cumulé 0.8999 $
+[25/90] problème 311 (php.upload_non_controle) : sol 143, sol 144, sol 145 — bilan 25 validées / 22 non validées — coût cumulé 0.9477 $
+[26/90] problème 312 (php.fonction_dangereuse) : sol 146, sol 147, sol 148 — bilan 26 validées / 24 non validées — coût cumulé 0.9826 $
+[27/90] problème 330 (php.sql_concat) : sol 149, sol 150, sol 151 — bilan 27 validées / 25 non validées — coût cumulé 1.0284 $
+[28/90] problème 342 (php.syntaxe) : sol 152, sol 153, sol 154, sol 155 — bilan 27 validées / 27 non validées — coût cumulé 1.0643 $
+[29/90] problème 346 (php.xss) : sol 156, sol 157, sol 158, sol 159 — bilan 29 validées / 27 non validées — coût cumulé 1.1089 $
+[30/90] problème 352 (php.hash_faible) : sol 160, sol 161, sol 162 — bilan 30 validées / 29 non validées — coût cumulé 1.1405 $
+[31/90] problème 354 (php.include_dynamique) : sol 163, sol 164, sol 165, sol 166 — bilan 30 validées / 30 non validées — coût cumulé 1.1917 $
+[32/90] problème 355 (php.upload_non_controle) : sol 167, sol 168, sol 169, sol 170 — bilan 32 validées / 31 non validées — coût cumulé 1.2347 $
+[33/90] problème 356 (php.fonction_dangereuse) : sol 171, sol 172, sol 173, sol 174 — bilan 33 validées / 34 non validées — coût cumulé 1.2726 $
+[34/90] problème 375 (php.syntaxe) : sol 175, sol 176, sol 177 — bilan 33 validées / 36 non validées — coût cumulé 1.2996 $
+[35/90] problème 376 (php.sql_concat) : sol 178, sol 179, sol 180 — bilan 34 validées / 37 non validées — coût cumulé 1.3417 $
+[36/90] problème 391 (php.xss) : sol 181, sol 182, sol 183 — bilan 36 validées / 37 non validées — coût cumulé 1.3803 $
+[37/90] problème 397 (php.hash_faible) : sol 184, sol 185, sol 186 — bilan 38 validées / 37 non validées — coût cumulé 1.4208 $
+[38/90] problème 399 (php.include_dynamique) : sol 187, sol 188, sol 189 — bilan 38 validées / 39 non validées — coût cumulé 1.467 $
+[39/90] problème 400 (php.upload_non_controle) : sol 190, sol 191, sol 192 — bilan 40 validées / 39 non validées — coût cumulé 1.5177 $
+[40/90] problème 401 (php.fonction_dangereuse) : sol 193, sol 194, sol 195 — bilan 41 validées / 41 non validées — coût cumulé 1.5504 $
+[41/90] problème 418 (php.sql_concat) : sol 196, sol 197 — bilan 43 validées / 41 non validées — coût cumulé 1.5875 $
+[42/90] problème 430 (php.syntaxe) : sol 198, sol 199 — bilan 45 validées / 41 non validées — coût cumulé 1.6097 $
+[43/90] problème 434 (php.xss) : sol 200, sol 201, sol 202 — bilan 47 validées / 41 non validées — coût cumulé 1.6502 $
+[44/90] problème 440 (php.hash_faible) : sol 203, sol 204, sol 205 — bilan 49 validées / 41 non validées — coût cumulé 1.6908 $
+[45/90] problème 442 (php.include_dynamique) : sol 206, sol 207, sol 208 — bilan 49 validées / 43 non validées — coût cumulé 1.7387 $
+[46/90] problème 443 (php.upload_non_controle) : sol 209, sol 210, sol 211 — bilan 51 validées / 43 non validées — coût cumulé 1.7927 $
+[47/90] problème 444 (php.fonction_dangereuse) : sol 212, sol 213, sol 214 — bilan 52 validées / 45 non validées — coût cumulé 1.8369 $
+[48/90] problème 462 (php.syntaxe) : sol 215, sol 216, sol 217 — bilan 52 validées / 47 non validées — coût cumulé 1.8643 $
+[49/90] problème 463 (php.sql_concat) : sol 218, sol 219, sol 220 — bilan 54 validées / 47 non validées — coût cumulé 1.9099 $
+[50/90] problème 478 (php.xss) : sol 221, sol 222, sol 223 — bilan 55 validées / 47 non validées — coût cumulé 1.9534 $
+[51/90] problème 484 (php.hash_faible) : sol 224, sol 225, sol 226 — bilan 56 validées / 48 non validées — coût cumulé 1.9837 $
+[52/90] problème 486 (php.include_dynamique) : sol 227, sol 228, sol 229 — bilan 56 validées / 50 non validées — coût cumulé 2.0323 $
+[53/90] problème 487 (php.upload_non_controle) : sol 230, sol 231, sol 232 — bilan 57 validées / 50 non validées — coût cumulé 2.0689 $
+[54/90] problème 488 (php.fonction_dangereuse) : sol 233, sol 234, sol 235 — bilan 58 validées / 52 non validées — coût cumulé 2.1134 $
+[55/90] problème 4 (php.sql_concat) : sol 236, sol 237, sol 238 — bilan 60 validées / 53 non validées — coût cumulé 2.1698 $
+[56/90] problème 23 (php.syntaxe) : sol 239, sol 240 — bilan 61 validées / 53 non validées — coût cumulé 2.1895 $
+[57/90] problème 44 (php.sql_concat) : sol 241, sol 242, sol 243 — bilan 63 validées / 54 non validées — coût cumulé 2.2191 $
+[58/90] problème 65 (php.syntaxe) : sol 244, sol 245, sol 246 — bilan 63 validées / 56 non validées — coût cumulé 2.243 $
+[59/90] problème 83 (php.sql_concat) : sol 247, sol 248, sol 249 — bilan 65 validées / 57 non validées — coût cumulé 2.269 $
+[60/90] problème 92 (php.syntaxe) : sol 250, sol 251 — bilan 66 validées / 58 non validées — coût cumulé 2.2911 $
+[61/90] problème 124 (php.sql_concat) : sol 252, sol 253, sol 254 — bilan 68 validées / 59 non validées — coût cumulé 2.3177 $
+[62/90] problème 139 (php.syntaxe) : sol 255, sol 256, sol 257 — bilan 68 validées / 62 non validées — coût cumulé 2.3507 $
+[63/90] problème 165 (php.sql_concat) : sol 258, sol 259, sol 260 — bilan 70 validées / 63 non validées — coût cumulé 2.3902 $
+[64/90] problème 166 (php.syntaxe) : sol 261, sol 262, sol 263 — bilan 70 validées / 65 non validées — coût cumulé 2.4201 $
+[65/90] problème 204 (php.sql_concat) : sol 264, sol 265 — bilan 71 validées / 66 non validées — coût cumulé 2.4523 $
+[66/90] problème 203 (php.syntaxe) : sol 266, sol 267, sol 268 — bilan 72 validées / 66 non validées — coût cumulé 2.4747 $
+[67/90] problème 256 (php.syntaxe) : sol 269, sol 270, sol 271 — bilan 73 validées / 66 non validées — coût cumulé 2.5084 $
+[68/90] problème 245 (php.sql_concat) : sol 272, sol 273, sol 274 — bilan 75 validées / 66 non validées — coût cumulé 2.5546 $
+[69/90] problème 260 (php.xss) : sol 275, sol 276, sol 277 — bilan 76 validées / 66 non validées — coût cumulé 2.596 $
+[70/90] problème 266 (php.hash_faible) : sol 278, sol 279, sol 280 — bilan 77 validées / 67 non validées — coût cumulé 2.6429 $
+[71/90] problème 282 (php.upload_non_controle) : sol 281, sol 282, sol 283 — bilan 78 validées / 67 non validées — coût cumulé 2.6891 $
+[72/90] problème 270 (php.fonction_dangereuse) : sol 284, sol 285, sol 286, sol 287 — bilan 78 validées / 70 non validées — coût cumulé 2.7358 $
+[73/90] problème 299 (php.syntaxe) : sol 288, sol 289 — bilan 79 validées / 70 non validées — coût cumulé 2.7576 $
+[74/90] problème 288 (php.sql_concat) : sol 290, sol 291, sol 292 — bilan 81 validées / 70 non validées — coût cumulé 2.7869 $
+[75/90] problème 303 (php.xss) : sol 293, sol 294, sol 295 — bilan 82 validées / 70 non validées — coût cumulé 2.8297 $
+[76/90] problème 309 (php.hash_faible) : sol 296, sol 297, sol 298 — bilan 82 validées / 72 non validées — coût cumulé 2.8876 $
+[77/90] problème 326 (php.upload_non_controle) : sol 299, sol 300, sol 301 — bilan 83 validées / 72 non validées — coût cumulé 2.9401 $
+[78/90] problème 313 (php.fonction_dangereuse) : sol 302, sol 303, sol 304 — bilan 83 validées / 75 non validées — coût cumulé 2.9872 $
+[79/90] problème 331 (php.sql_concat) : sol 305, sol 306, sol 307 — bilan 84 validées / 76 non validées — coût cumulé 3.0188 $
+[80/90] problème 343 (php.syntaxe) : sol 308, sol 309, sol 310 — bilan 86 validées / 77 non validées — coût cumulé 3.0437 $
+[81/90] problème 347 (php.xss) : sol 311, sol 312, sol 313 — bilan 87 validées / 77 non validées — coût cumulé 3.0799 $
+[82/90] problème 353 (php.hash_faible) : sol 314, sol 315, sol 316 — bilan 87 validées / 79 non validées — coût cumulé 3.1335 $
+[83/90] problème 371 (php.upload_non_controle) : sol 317, sol 318, sol 319 — bilan 88 validées / 79 non validées — coût cumulé 3.1876 $
+[84/90] problème 357 (php.fonction_dangereuse) : sol 320, sol 321, sol 322 — bilan 88 validées / 81 non validées — coût cumulé 3.2181 $
+[85/90] problème 388 (php.syntaxe) : sol 323, sol 324 — bilan 89 validées / 81 non validées — coût cumulé 3.2465 $
+[86/90] problème 377 (php.sql_concat) : sol 325, sol 326, sol 327 — bilan 90 validées / 81 non validées — coût cumulé 3.287 $
+[87/90] problème 392 (php.xss) : sol 328, sol 329, sol 330, sol 331 — bilan 92 validées / 81 non validées — coût cumulé 3.3347 $
+[88/90] problème 398 (php.hash_faible) : sol 332, sol 333, sol 334 — bilan 92 validées / 82 non validées — coût cumulé 3.3812 $
+[89/90] problème 415 (php.upload_non_controle) : sol 335, sol 336, sol 337 — bilan 93 validées / 82 non validées — coût cumulé 3.4335 $
+[90/90] problème 402 (php.fonction_dangereuse) : sol 338, sol 339, sol 340 — bilan 93 validées / 85 non validées — coût cumulé 3.478 $
+{
+  "problemes": 90,
+  "erreurs_ia": 0,
+  "validees": 93,
+  "non_validees": 85,
+  "non_jugees": 93,
+  "consommation": {
+    "appels": 90,
+    "entree": 153995,
+    "sortie": 317001,
+    "cout_dollars": 3.478,
+    "cout_par_appel": 0.0386
+  }
+}

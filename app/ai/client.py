@@ -52,6 +52,7 @@ class ClaudeClient:
 
     def __init__(self) -> None:
         self.nom_modele = settings.claude_model
+        self.consommation = {"appels": 0, "entree": 0, "sortie": 0}    # tokens facturés (la sortie inclut la réflexion interne)
 
     def generer_json(self, prompt: str) -> str:
         if not settings.claude_api_key:
@@ -63,6 +64,11 @@ class ClaudeClient:
                 model=self.nom_modele, max_tokens=settings.claude_max_tokens,
                 messages=[{"role": "user", "content": prompt}],
             )
+            u = msg.usage
+            self.consommation["appels"] += 1
+            self.consommation["entree"] += (u.input_tokens or 0) + (getattr(u, "cache_creation_input_tokens", 0) or 0) + (getattr(u, "cache_read_input_tokens", 0) or 0)
+            self.consommation["sortie"] += u.output_tokens or 0
+            log.info("Claude : %s tokens en entrée, %s en sortie", u.input_tokens, u.output_tokens)
             return "".join(b.text for b in msg.content if b.type == "text")   
         except anthropic.APIStatusError as exc:
             log.warning("Claude a répondu HTTP %s : %s", exc.status_code, str(exc.message)[:300])

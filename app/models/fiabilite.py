@@ -24,7 +24,7 @@ class ModeleFiabiliteVersion(Base):
 
 
 class EvaluationFiabilite(Base):
-    """Score de fiabilité d'un résultat d'analyse (étape 3) ou d'une solution de Gemini (étape 6), avec la vérité terrain
+    """Score de fiabilité d'un résultat d'analyse (étape 3) ou d'une solution de l'IA (étape 6), avec la vérité terrain
     quand elle est connue (`etiquette`)."""
     __tablename__ = "evaluation_fiabilite"
     id: Mapped[int] = pk()

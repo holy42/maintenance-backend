@@ -5,6 +5,8 @@
   python -m app.fiabilite.cli entrainer   --etape 3 --csv donnees_etape3.csv --algo auto --sortie var/modeles/etape3.json [--test 0.3]
   python -m app.fiabilite.cli evaluer     --etape 3 --apprentissage jeu1.csv --test export_complet.csv --retirer-apprentissage
       # entraîne sur jeu1.csv puis évalue UNE fois sur un jeu indépendant ; compare aux règles fixées à la main et à la référence constante
+  python -m app.fiabilite.cli banc        --utilisateur aina --max 20 --sortie var/banc_etape6.csv [--etiqueter] [--applications 1,2]
+      # étape 6 : banc de test automatique sur les applications de TEST (appelle l'IA ; voir app/fiabilite/banc.py)
 
 Le CSV contient une colonne par variable (voir app/fiabilite/variables.py) et une colonne `etiquette` (1 = vrai, 0 = faux)."""
 import argparse
@@ -34,7 +36,30 @@ def main(argv: list[str] | None = None) -> int:
     v.add_argument("--retirer-apprentissage", action="store_true",
                    help="le CSV de test est un export COMPLET : on en retire d'abord les lignes présentes dans le CSV d'apprentissage")
     v.add_argument("--graine", type=int, default=0)
+    b = sp.add_parser("banc", help="étape 6 : étiquettes produites par un banc de test automatique (appelle l'IA)")
+    b.add_argument("--utilisateur", required=True, help="identifiant du compte au nom duquel les diagnostics sont créés")
+    b.add_argument("--max", type=int, default=20, help="nombre de problèmes à diagnostiquer (un appel à l'IA chacun)")
+    b.add_argument("--sortie", default="var/banc_etape6.csv", help="CSV complété à chaque lancement")
+    b.add_argument("--etiqueter", action="store_true", help="écrit aussi les étiquettes dans la base (sinon : CSV seulement)")
+    b.add_argument("--applications", default="", help="identifiants d'applications séparés par des virgules (défaut : toutes)")
+    b.add_argument("--importer", nargs="*", default=[], metavar="CSV",
+                   help="écrit d'abord dans la base les étiquettes de ces CSV (lancements précédents faits sans --etiqueter)")
     a = p.parse_args(argv)
+
+    if a.cmd == "banc":
+        from app.database import SessionLocal
+        from app.fiabilite.banc import executer
+        apps = [int(x) for x in a.applications.split(",") if x.strip()] or None
+        from app.fiabilite.banc import importer_csv
+        with SessionLocal() as db:
+            for chemin in a.importer:
+                print(f"{importer_csv(db, chemin)} étiquette(s) importée(s) depuis {chemin}", file=sys.stderr)
+            if a.max <= 0:
+                return 0
+            bilan = executer(db, a.utilisateur, a.max, a.sortie, a.etiqueter, apps, journal=lambda m: print(m, file=sys.stderr, flush=True))
+        print(json.dumps(bilan, indent=2, ensure_ascii=False))
+        return 0
+
     noms = NOMS[a.etape]
 
     if a.cmd == "synthetique":

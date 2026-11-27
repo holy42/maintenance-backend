@@ -1,4 +1,4 @@
-"""Libellés lisibles des variables du modèle : pour l'interface, et pour le contexte envoyé à Gemini
+"""Libellés lisibles des variables du modèle : pour l'interface, et pour le contexte envoyé à l'IA
 (qui ne doit pas recevoir des noms techniques comme « protection_proche »)."""
 
 LIBELLES: dict[str, str] = {
@@ -16,9 +16,9 @@ LIBELLES: dict[str, str] = {
     "dossier_tiers": "fichier situé dans un dossier de code tiers",
     "dossier_test": "fichier situé dans un dossier de tests",
     "taux_confirmation_regle": "taux de confirmation historique de cette règle",
-    # étape 6 : solutions de Gemini
-    "confiance_declaree": "confiance déclarée par Gemini",
-    "a_incertitudes": "incertitudes exprimées par Gemini",
+    # étape 6 : solutions de l'IA
+    "confiance_declaree": "confiance déclarée par l'IA",
+    "a_incertitudes": "incertitudes exprimées par l'IA",
     "nb_causes": "nombre de causes proposées",
     "code_present": "code proposé",
     "lignes_ajoutees": "nombre de lignes ajoutées par le correctif",

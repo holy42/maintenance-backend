@@ -44,7 +44,7 @@ def generer_diagnostic(db: Session, p: Probleme, user: Utilisateur, ia: ServiceI
     d.verifications_recommandees = controler_verifications(          # rédigées par l'IA, puis contrôlées
         reponse.diagnostic.verifications_recommandees, {p.fichier} if p.fichier else None, p.categorie)
     depot = git_service.dossier_depot(p.application_id)               # copie locale du dépôt, si une vérification l'a déjà clonée
-    for s, brute in zip(d.solutions, reponse.solutions):               # étape 6 : fiabilité de chaque solution de Gemini
+    for s, brute in zip(d.solutions, reponse.solutions):               # étape 6 : fiabilité de chaque solution de l'IA
         fiab.evaluer_solution(
             s, d, p, reponse.diagnostic, preuve,
             reference_valide=controles.reference_valide(s.extrait_code, depot),

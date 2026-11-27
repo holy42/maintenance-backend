@@ -1,4 +1,4 @@
-"""« Vérifications recommandées » : rédigées par Gemini, puis CONTRÔLÉES par des règles avant d'être affichées.
+"""« Vérifications recommandées » : rédigées par l'IA, puis CONTRÔLÉES par des règles avant d'être affichées.
 
 Ce que le contrôle fait (déterministe, sans IA) :
   - supprime les lignes vides et les doublons (sans tenir compte de la casse ni de la ponctuation finale) ;

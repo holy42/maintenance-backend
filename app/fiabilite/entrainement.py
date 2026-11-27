@@ -63,8 +63,8 @@ def comparer(X: Sequence[Sequence[float]], y: Sequence[int], k: int = 5, repetit
         apres = _resume(y, calibrer_hors_echantillon(oof, y, k=k, graine=graine), graine)
         apres["avant_calibration"] = m.rapport(y, oof)
         res["modeles"][nom] = apres
-    if confiance_declaree is not None:     # étape 6 : la confiance déclarée par Gemini est-elle déjà informative ?
-        res["modeles"]["confiance_declaree_par_gemini"] = _resume(y, list(confiance_declaree), graine)
+    if confiance_declaree is not None:     # étape 6 : la confiance déclarée par l'IA est-elle déjà informative ?
+        res["modeles"]["confiance_declaree_par_ia"] = _resume(y, list(confiance_declaree), graine)
     if avec_sklearn:
         res["modeles"].update(_reference_sklearn(X, y, k, graine))
     res["calibration"] = "apres"      # brier, ece et auc de chaque modèle sont mesurés après calibration (hors échantillon)

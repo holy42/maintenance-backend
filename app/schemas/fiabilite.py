@@ -1,5 +1,5 @@
 """Contrats de l'API du modèle de fiabilité.
-`FiabiliteOut` est volontairement distinct de la « confiance déclarée » par Gemini : l'interface montre les deux, nettement séparés."""
+`FiabiliteOut` est volontairement distinct de la « confiance déclarée » par l'IA : l'interface montre les deux, nettement séparés."""
 from datetime import datetime
 from typing import Literal
 
@@ -29,7 +29,7 @@ class FiabiliteOut(BaseModel):
 
 
 class EntrainementIn(BaseModel):
-    etape: int = Field(description="3 : preuves de l'analyse ; 6 : solutions de Gemini")
+    etape: int = Field(description="3 : preuves de l'analyse ; 6 : solutions de l'IA")
     algorithme: str = "auto"          # auto | logistique | foret
 
 

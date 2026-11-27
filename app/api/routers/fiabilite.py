@@ -26,7 +26,7 @@ def _admin(user: Utilisateur = Depends(utilisateur_courant)) -> Utilisateur:
 
 @router.get("/apercu")
 def apercu(db: Session = Depends(get_db), _: Utilisateur = Depends(_admin)):
-    """Nombre d'exemples étiquetés par étape (3 : preuves de l'analyse ; 6 : solutions de Gemini) et version active."""
+    """Nombre d'exemples étiquetés par étape (3 : preuves de l'analyse ; 6 : solutions de l'IA) et version active."""
     svc = ServiceFiabilite(db)
     actives = {v.etape: v.version for v in db.execute(select(ModeleFiabiliteVersion).where(ModeleFiabiliteVersion.actif.is_(True))).scalars()}
     return [{**svc.apercu(e), "version_active": actives.get(e)} for e in (3, 6)]

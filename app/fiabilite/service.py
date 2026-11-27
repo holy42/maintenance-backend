@@ -105,7 +105,7 @@ class ServiceFiabilite:
             p.fiabilite_preuve = self.sortie(evs[p.resultat_id]) if p.resultat_id in evs else None
 
     def annoter_diagnostics(self, diagnostics: Sequence[Diagnostic]) -> None:
-        """Ajoute `fiabilite` (étape 6) à chaque solution de Gemini."""
+        """Ajoute `fiabilite` (étape 6) à chaque solution de l'IA."""
         solutions = [s for d in diagnostics for s in d.solutions]
         evs = self.evaluations("solution", [s.id for s in solutions])
         for s in solutions:
@@ -126,7 +126,7 @@ class ServiceFiabilite:
     def preuve_du_probleme(self, p: Probleme) -> EvaluationFiabilite | None:
         return self.derniere_evaluation("resultat", p.resultat_id) if p.resultat_id else None
 
-    # ---------- étape 6 : solutions de Gemini ----------
+    # ---------- étape 6 : solutions de l'IA ----------
 
     def evaluer_solution(self, solution: Solution, diagnostic: Diagnostic, probleme: Probleme, reponse: DiagnosticIA,
                          preuve: EvaluationFiabilite | None, reference_valide: bool | None = None, syntaxe_valide: bool | None = None) -> EvaluationFiabilite:
@@ -134,7 +134,7 @@ class ServiceFiabilite:
             explication=diagnostic.explication, causes=reponse.causes_probables, confiance_declaree=reponse.niveau_confiance,
             incertitudes=reponse.incertitudes, description=solution.description, extrait_code=solution.extrait_code, risques=solution.risques,
             tests_suggeres=solution.tests_suggeres, fiabilite_preuve=float(preuve.score) if preuve else None, categorie=probleme.categorie,
-            gravite=probleme.gravite, reference_valide=reference_valide, syntaxe_valide=syntaxe_valide,
+            gravite=probleme.gravite, reference_valide=reference_valide, syntaxe_valide=syntaxe_valide, format_code=solution.format_code,
         )
         return self._enregistrer(6, "solution", solution.id, probleme.application_id, variables_etape6(entree))
 
@@ -174,7 +174,8 @@ class ServiceFiabilite:
     def entrainer(self, etape: int, utilisateur_id: int, algorithme: str = "auto") -> ModeleFiabiliteVersion:
         """Entraîne une NOUVELLE version à partir des exemples étiquetés. Elle reste inactive jusqu'à activation par un administrateur."""
         noms, X, y = self.jeu_de_donnees(etape)
-        comparaison = en.comparer(X, y)                  # ValueError si jeu insuffisant
+        conf = [x[noms.index("confiance_declaree")] for x in X] if etape == 6 else None   # référence : la confiance déclarée par l'IA
+        comparaison = en.comparer(X, y, confiance_declaree=conf)    # ValueError si jeu insuffisant
         choisi = comparaison["recommande"] if algorithme == "auto" else algorithme
         if choisi == "constant":
             raise ValueError("Les variables n'apportent rien par rapport à une prédiction constante : entraînement refusé.")

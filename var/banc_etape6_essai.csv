@@ -1,0 +1,13 @@
+probleme_id,application_id,regle,solution_id,evaluation_id,format_code,score_avant,motif,confiance_declaree,a_incertitudes,nb_causes,code_present,lignes_ajoutees,lignes_retirees,nb_fichiers_touches,code_syntaxe_valide,reference_valide,fiabilite_preuve,cat_securite,gravite,a_tests_suggeres,a_risques,touche_authentification,longueur_explication,etiquette
+1,1,php.sql_concat,28,1332,diff,0.847,"anomalie disparue (php.sql_concat : 1 -> 0), php -l OK",0.66,1.0,5.0,1.0,1.3862943611198906,0.6931471805599453,1.0,1.0,1.0,0.663,1.0,2.0,1.0,1.0,0.0,6.71174039505618,1
+1,1,php.sql_concat,29,1333,diff,0.846,ne s'applique pas : le passage à remplacer est introuvable dans app\Controllers\Article15.php,0.66,1.0,5.0,1.0,1.791759469228055,0.0,1.0,1.0,1.0,0.663,1.0,2.0,1.0,1.0,0.0,6.71174039505618,0
+1,1,php.sql_concat,30,1334,extrait,0.44,pas de code proposé,0.66,1.0,5.0,0.0,0.0,0.0,0.0,0.0,0.0,0.663,1.0,2.0,1.0,1.0,1.0,6.71174039505618,
+17,1,php.syntaxe,31,1335,diff,0.873,"anomalie disparue (php.syntaxe : 1 -> 0), php -l OK",0.6,1.0,5.0,1.0,0.6931471805599453,0.6931471805599453,1.0,1.0,1.0,0.591,0.0,2.0,1.0,1.0,0.0,6.863803391452954,1
+17,1,php.syntaxe,32,1336,diff,0.863,"anomalie disparue (php.syntaxe : 1 -> 0), php -l OK",0.6,1.0,5.0,1.0,1.0986122886681098,0.6931471805599453,1.0,1.0,1.0,0.591,0.0,2.0,1.0,1.0,0.0,6.863803391452954,1
+17,1,php.syntaxe,33,1337,extrait,0.514,"extrait d'illustration, non applicable automatiquement",0.6,1.0,5.0,1.0,1.3862943611198906,0.0,1.0,0.0,0.0,0.591,0.0,2.0,1.0,1.0,0.0,6.863803391452954,
+41,2,php.sql_concat,34,1338,diff,0.843,"anomalie disparue (php.sql_concat : 1 -> 0), php -l OK",0.7,1.0,4.0,1.0,1.3862943611198906,0.6931471805599453,1.0,1.0,1.0,0.696,1.0,3.0,1.0,1.0,0.0,6.675823221634848,1
+41,2,php.sql_concat,35,1339,diff,0.832,"anomalie disparue (php.sql_concat : 1 -> 0), php -l OK",0.7,1.0,4.0,1.0,1.791759469228055,0.6931471805599453,1.0,1.0,1.0,0.696,1.0,3.0,1.0,1.0,0.0,6.675823221634848,1
+41,2,php.sql_concat,36,1340,diff,0.842,l'anomalie est toujours détectée (php.sql_concat : 1 -> 1),0.7,1.0,4.0,1.0,1.791759469228055,0.0,1.0,1.0,1.0,0.696,1.0,3.0,1.0,1.0,0.0,6.675823221634848,0
+48,2,php.syntaxe,37,1341,diff,0.872,"anomalie disparue (php.syntaxe : 1 -> 0), php -l OK",0.6,1.0,4.0,1.0,0.6931471805599453,0.6931471805599453,1.0,1.0,1.0,0.591,0.0,2.0,1.0,1.0,0.0,6.674561391814426,1
+48,2,php.syntaxe,38,1342,diff,0.862,"anomalie disparue (php.syntaxe : 1 -> 0), php -l OK",0.6,1.0,4.0,1.0,1.0986122886681098,0.6931471805599453,1.0,1.0,1.0,0.591,0.0,2.0,1.0,1.0,0.0,6.674561391814426,1
+48,2,php.syntaxe,39,1343,extrait,0.546,"extrait d'illustration, non applicable automatiquement",0.6,1.0,4.0,1.0,0.6931471805599453,0.0,1.0,0.0,0.0,0.591,0.0,2.0,1.0,1.0,0.0,6.674561391814426,

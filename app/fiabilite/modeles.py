@@ -299,7 +299,7 @@ _TYPES = {c.type: c for c in (RegressionLogistique, ArbreDecision, ForetAleatoir
 
 
 class ModeleFiabilite:
-    """Un modèle de fiabilité pour UNE étape (3 : preuves de l'analyse ; 6 : solutions de Gemini) : même code, entraîné séparément."""
+    """Un modèle de fiabilité pour UNE étape (3 : preuves de l'analyse ; 6 : solutions de l'IA) : même code, entraîné séparément."""
 
     def __init__(self, etape: int, noms: list[str], coeur, calibrateur: CalibrateurPlatt | None = None,
                  moyennes: list[float] | None = None, seuils: tuple[float, float] = (0.40, 0.70),

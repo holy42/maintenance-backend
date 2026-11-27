@@ -1,4 +1,4 @@
-"""Contrôles automatiques d'une solution de Gemini (variables `reference_valide` et `code_syntaxe_valide` de l'étape 6).
+"""Contrôles automatiques d'une solution de l'IA (variables `reference_valide` et `code_syntaxe_valide` de l'étape 6).
 
 Chaque contrôle retourne True / False, ou None quand il n'est pas vérifiable (aucun fichier cité, dépôt absent, tree-sitter
 non installé, code non PHP). Dans le modèle, None compte comme « non confirmé » (0), comme False.

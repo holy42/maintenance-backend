@@ -168,3 +168,14 @@ def test_comparaison_apres_calibration():
     assert "avant_calibration" not in res["modeles"]["constant"]
     # une seule classe dans un paquet d'apprentissage : pas d'erreur, le score brut est conservé
     assert calibrer_hors_echantillon([0.2, 0.4, 0.6, 0.8], [1, 1, 1, 1], k=2) == [0.2, 0.4, 0.6, 0.8]
+
+
+def test_etape6_extrait_non_diff_compte_comme_ajout():
+    """Un extrait (pas un diff) : toutes ses lignes non vides sont ajoutées ; « -1 » ou « -- commentaire » ne sont pas des retraits."""
+    extrait = "$a = -1;\n-- commentaire SQL\n\n--$i;\necho $a;"
+    v = variables_etape6(EntreeEtape6(extrait_code=extrait, format_code="extrait"))
+    assert v["lignes_ajoutees"] == math.log1p(4) and v["lignes_retirees"] == 0.0 and v["nb_fichiers_touches"] == 1.0
+    diff = "--- a/x.php\n+++ b/x.php\n@@ -1 +1 @@\n-$a = 1;\n+$a = 2;"
+    v = variables_etape6(EntreeEtape6(extrait_code=diff, format_code="extrait"))      # mal étiqueté par l'IA : reconnu comme diff
+    assert v["lignes_ajoutees"] == math.log1p(1) and v["lignes_retirees"] == math.log1p(1)
+    assert variables_etape6(EntreeEtape6())["nb_fichiers_touches"] == 0.0
